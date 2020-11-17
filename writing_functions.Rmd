@@ -1,13 +1,11 @@
 ---
-title: "Reading data from the web"
+title: "Writing functions"
 output: github_document
 ---
 
 ```{r setup}
 library(tidyverse)
-
 library(rvest)
-library(httr)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -27,61 +25,43 @@ scale_colour_discrete = scale_color_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-## Scrape a table
-
-I want the first table from [this page](http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm).
-
-read in the html
+## Do something simple 
 
 ```{r}
-url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+x_vec = rnorm(30, mean = 5, sd = 3)
 
-drug_use_html = read_html(url)
+(x_vec - mean(x_vec)) / sd(x_vec)
 ```
 
-extract the table(s); focus on the first one
+I want a function to compute z-scores
 
 ```{r}
-tabl_marj = 
-  drug_use_html %>% 
-  html_nodes(css = "table") %>% 
-  first() %>% 
-  html_table() %>% 
-  slice(-1) %>% 
-  as_tibble()
+z_scores = function(x) {
+  
+  if (!is.numeric(x)) {
+    stop("Input must be numeric")
+  }
+  
+  if (length(x) < 3) {
+    stop("Input must have at least three numbers")
+  }
+  
+  z = (x - mean(x)) / sd(x)
+  
+  return(z)
+  
+}
+
+z_scores(x_vec)
 ```
 
-## Star Wars Movie info
+Try my function on some other things. This should give errors.
 
-I want the data from [here](https://www.imdb.com/list/ls070150896/).
-
-```{r}
-swm_html = read_html("https://www.imdb.com/list/ls070150896/")
+```{r, error = TRUE}
+z_scores(3)
+z_scores("my name is jeff")
+z_scores(mtcars)
+z_scores(c(TRUE, TRUE, FALSE, TRUE))
 ```
 
-Get elements that I want.
-
-```{r}
-title_vec = 
-  swm_html %>% 
-  html_nodes(css = ".lister-item-header a") %>% 
-  html_text()
-
-gross_rev_vec = 
-  swm_html %>% 
-  html_nodes(css = ".ghost~ .text-muted+ span") %>% 
-  html_text()
-
-runtime_vec = 
-  swm_html %>% 
-  html_nodes(css = ".runtime") %>% 
-  html_text()
-
-sum_df = 
-  tibble(
-    title = title_vec,
-    gross_rev = gross_rev_vec,
-    runtime = runtime_vec
-  )
-```
 
