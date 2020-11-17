@@ -60,12 +60,11 @@ x_vec = rnorm(30, mean = 5, sd = 3)
 (x_vec - mean(x_vec)) / sd(x_vec)
 ```
 
-    ##  [1]  0.002767067 -1.351651939 -0.316555650  0.444470059  0.568286393
-    ##  [6] -0.712584254 -0.626281194  0.205080272  0.913059120 -0.340031220
-    ## [11] -0.475877417  1.089520512  0.299145256 -0.392653544  1.623085538
-    ## [16]  0.288991651  0.090495641 -0.261474830  1.852439737 -1.416642866
-    ## [21] -0.128559547 -1.976707922  1.344969370 -0.552394019 -1.671340878
-    ## [26] -0.775931125  0.637709729 -0.671938832  2.106573179  0.204031710
+    ##  [1]  0.38238855  0.46241115  0.73264169  1.04709362  0.54774195 -0.73905464
+    ##  [7] -1.73084869 -1.46030734  1.05392409 -0.72148665  1.07960338  0.93332675
+    ## [13] -0.32429363  0.74959083 -0.73074847 -0.52537275  0.60090806 -1.06770689
+    ## [19] -1.48461168 -1.27965051  0.35149878 -1.81109451 -0.12606882 -0.18687096
+    ## [25]  2.49259906  0.32236790 -0.07859586  0.49400915  0.45266136  0.56394507
 
 I want a function to compute z-scores
 
@@ -89,12 +88,11 @@ z_scores = function(x) {
 z_scores(x_vec)
 ```
 
-    ##  [1]  0.002767067 -1.351651939 -0.316555650  0.444470059  0.568286393
-    ##  [6] -0.712584254 -0.626281194  0.205080272  0.913059120 -0.340031220
-    ## [11] -0.475877417  1.089520512  0.299145256 -0.392653544  1.623085538
-    ## [16]  0.288991651  0.090495641 -0.261474830  1.852439737 -1.416642866
-    ## [21] -0.128559547 -1.976707922  1.344969370 -0.552394019 -1.671340878
-    ## [26] -0.775931125  0.637709729 -0.671938832  2.106573179  0.204031710
+    ##  [1]  0.38238855  0.46241115  0.73264169  1.04709362  0.54774195 -0.73905464
+    ##  [7] -1.73084869 -1.46030734  1.05392409 -0.72148665  1.07960338  0.93332675
+    ## [13] -0.32429363  0.74959083 -0.73074847 -0.52537275  0.60090806 -1.06770689
+    ## [19] -1.48461168 -1.27965051  0.35149878 -1.81109451 -0.12606882 -0.18687096
+    ## [25]  2.49259906  0.32236790 -0.07859586  0.49400915  0.45266136  0.56394507
 
 Try my function on some other things. This should give errors.
 
@@ -155,7 +153,7 @@ mean_and_sd(x_vec)
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  4.25  2.81
+    ## 1  4.29  2.92
 
 ## Multiple inputs
 
@@ -177,7 +175,7 @@ sim_data %>%
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  4.04  2.79
+    ## 1  4.05  3.06
 
 ``` r
 sim_mean_sd = function(sample_size, mu = 3, sigma = 3) {
@@ -201,7 +199,7 @@ sim_mean_sd(sample_size = 100, mu = 6, sigma = 3)
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  6.20  2.55
+    ## 1  5.80  2.83
 
 ``` r
 sim_mean_sd(mu = 6, sample_size = 100,  sigma = 3)
@@ -210,7 +208,7 @@ sim_mean_sd(mu = 6, sample_size = 100,  sigma = 3)
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  6.27  3.01
+    ## 1  5.96  2.93
 
 ``` r
 sim_mean_sd(sample_size = 100)
@@ -219,7 +217,7 @@ sim_mean_sd(sample_size = 100)
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  3.15  3.21
+    ## 1  3.02  3.18
 
 ## Let’s review Napoleon Dynamite
 
@@ -299,8 +297,19 @@ dynamite_url = "https://www.amazon.com/product-reviews/B00005JNBQ/ref=cm_cr_arp_
 read_page_reviews(dynamite_url)
 ```
 
-    ## # A tibble: 0 x 3
-    ## # ... with 3 variables: title <chr>, stars <chr>, text <chr>
+    ## # A tibble: 10 x 3
+    ##    title                            stars      text                             
+    ##    <chr>                            <chr>      <chr>                            
+    ##  1 Hilarious                        5.0 out o~ "Super funny! Loved the online r~
+    ##  2 Love this movie                  5.0 out o~ "We love this product.  It came ~
+    ##  3 Boo                              1.0 out o~ "We rented this movie because ou~
+    ##  4 Movie is still silly fun....ama~ 1.0 out o~ "We are getting really frustrate~
+    ##  5 Brilliant and awkwardly funny.   5.0 out o~ "I've watched this movie repeate~
+    ##  6 Great purchase price for great ~ 5.0 out o~ "Great movie and real good digit~
+    ##  7 Movie for memories               5.0 out o~ "I've been looking for this movi~
+    ##  8 Love!                            5.0 out o~ "Love this movie. Great quality" 
+    ##  9 Hilarious!                       5.0 out o~ "Such a funny movie, definitely ~
+    ## 10 napoleon dynamite                5.0 out o~ "cool movie"
 
 Let’s read a few pages of reviews.
 
@@ -334,3 +343,30 @@ f(x = y)
 ```
 
     ## [1] 4
+
+## Functions as arguments
+
+``` r
+my_summary = function(x, summ_func) {
+  
+  summ_func(x)
+}
+
+x_vec = rnorm(100, 3, 7)
+
+mean(x_vec)
+```
+
+    ## [1] 2.228389
+
+``` r
+median(x_vec)
+```
+
+    ## [1] 2.485243
+
+``` r
+my_summary(x_vec, IQR)
+```
+
+    ## [1] 9.417271
